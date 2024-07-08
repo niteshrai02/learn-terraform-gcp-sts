@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"google_storage_transfer_agent_pool","Source":"./modules/google-transfer-agent-pool","Dir":"modules/google-transfer-agent-pool"},{"Key":"google_storage_transfer_job","Source":"./modules/google-storage-transfer-service-job","Dir":"modules/google-storage-transfer-service-job"}]}
