@@ -35,9 +35,9 @@ resource "google_storage_transfer_job" "gcp-bucket-transfer-job" {
 
   schedule {
     schedule_start_date {
-      year = var.schedule_start_date_year
-      month = var.schedule_start_date_month
-      day = var.schedule_start_date_day
+      year = var.schedule_start_date_year["year"]
+      month = var.schedule_start_date_year["month"]
+      day = var.schedule_start_date_year["day"]
     }
     schedule_end_date {
       year  = 2025

@@ -23,8 +23,12 @@ variable "transfer_job_description" {
   default = "niteshtransferjobbucket"
 }
 variable "schedule_start_date_year" {
-  type = number
-  default = 2024
+  type = map(number)
+  default = {
+    year = 2024
+    month = 10
+    day = 1
+  }
 }
 variable "schedule_start_date_month" {
   type = number
