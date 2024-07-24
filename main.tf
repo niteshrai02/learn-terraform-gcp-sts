@@ -3,7 +3,12 @@ module "google_storage_transfer_job" {
 
  transfer_job_description = "niteshtransferjobbucket1"
  project = "identitytestnitesh"
- bucket_name = "niteshpoctestbucket"
+ bucket_name = "jobsourcetestbucket"
+ schedule_start_date = {
+  year = 2024
+  month = 7
+  day = 24
+ }
 }
 
 module "google_storage_transfer_agent_pool" {
