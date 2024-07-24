@@ -2,20 +2,33 @@ data "google_storage_transfer_project_service_account" "default" {
   project = var.project
 }
 
-resource "google_storage_bucket" "gcp-bucket" {
-  name          = var.bucket_name
+resource "google_storage_bucket" "source-gcp-bucket" {
+  name          = var.source_bucket_name
   storage_class = var.storage_class
   project       = var.project
   location      = var.location
 }
 
-resource "google_storage_bucket_iam_member" "gcp-bucket" {
-  bucket     = google_storage_bucket.gcp-bucket.name
-  role       = "roles/storage.admin"
-  member     = "serviceAccount:${data.google_storage_transfer_project_service_account.default.email}"
-  depends_on = [google_storage_bucket.gcp-bucket]
+resource "google_storage_bucket" "target-gcp-bucket" {
+  name          = var.target_bucket_name
+  storage_class = var.storage_class
+  project       = var.project
+  location      = var.location
 }
 
+resource "google_storage_bucket_iam_member" "source-gcp-bucket-iam" {
+  bucket     = google_storage_bucket.source-gcp-bucket.name
+  role       = "roles/storage.admin"
+  member     = "serviceAccount:${data.google_storage_transfer_project_service_account.default.email}"
+  depends_on = [google_storage_bucket.source-gcp-bucket]
+}
+
+resource "google_storage_bucket_iam_member" "target-gcp-bucket-iam" {
+  bucket     = google_storage_bucket.target-gcp-bucket.name
+  role       = "roles/storage.admin"
+  member     = "serviceAccount:${data.google_storage_transfer_project_service_account.default.email}"
+  depends_on = [google_storage_bucket.target-gcp-bucket]
+}
 
 
 resource "google_storage_transfer_job" "gcp-bucket-transfer-job" {
@@ -25,11 +38,11 @@ resource "google_storage_transfer_job" "gcp-bucket-transfer-job" {
   transfer_spec {
     
     gcs_data_sink {
-      bucket_name = google_storage_bucket.gcp-bucket.name
+      bucket_name = google_storage_bucket.target-gcp-bucket.name
       
     }
     gcs_data_source {
-      bucket_name = google_storage_bucket.gcp-bucket.name   
+      bucket_name = google_storage_bucket.source-gcp-bucket.name   
     }
   }
 
@@ -46,5 +59,5 @@ resource "google_storage_transfer_job" "gcp-bucket-transfer-job" {
     }
     repeat_interval = "604800s"
   }
-  depends_on = [google_storage_bucket_iam_member.gcp-bucket]
+  depends_on = [google_storage_bucket_iam_member.source-gcp-bucket-iam, google_storage_bucket_iam_member.target-gcp-bucket-iam]
 }

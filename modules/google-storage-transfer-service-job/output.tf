@@ -3,5 +3,5 @@ output "transfer_job" {
 }
 
 output "default_account" {
-  value=data.google_storage_transfer_project_service_account.default.email
+  value = data.google_storage_transfer_project_service_account.default.email
 }

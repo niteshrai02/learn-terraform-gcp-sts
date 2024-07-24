@@ -3,14 +3,17 @@ variable "project" {
   default = "identitytestnitesh"
 }
 
-variable "bucket_name" {
+variable "source_bucket_name" {
   type = string
-  default = "niteshpoctestbuc"
+}
+
+variable "target_bucket_name" {
+  type = string
 }
 
 variable "storage_class" {
   type = string
-  default = "NEARLINE"
+  default = "STANDARD"
 }
 
 variable "location" {
